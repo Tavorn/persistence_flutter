@@ -4,7 +4,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'dart:async';
 
-void main(){
+void main() async{
+
+  var data = await readFromFile();
+
+  if(data != null){
+    String message = await readFromFile();
+  }
+  
   runApp(MaterialApp(
     home: Home(),
   ));
@@ -35,6 +42,23 @@ class _HomeState extends State<Home> {
               Padding(padding: EdgeInsets.all(12.0),),
               Text("Your Text Will Be Displayed Below!!!", 
               style: TextStyle(fontSize: 16.0),),
+              Padding(padding: EdgeInsets.all(12.0),),
+              FutureBuilder(
+                future: readFromFile(),
+                builder: (BuildContext context, AsyncSnapshot<String> data){
+                  if(data.hasData!= null){
+                    return Text(
+                      data.data.toString(),
+                      style: TextStyle(
+                        fontSize: 24.0
+                      ),
+                    );
+                  }else{
+                    return Text("The Text You Enter Goes Here!");
+                  }
+                },
+              ),
+              Padding(padding: EdgeInsets.all(12.0),),
               TextField(
                 controller: _textField,
                 decoration: InputDecoration(
